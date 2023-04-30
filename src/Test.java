@@ -6,21 +6,14 @@ public class Test {
         while (active == 0) {
             System.out.println("Enter a command:\n(a)dd, (d)elete, (m)odify, (s)earch, (p)rint, or (t)erminate");
             String command = scan.nextLine().toLowerCase();
-            if (command.equals("a")) {
-                Manager.add();
-            } else if (command.equals("d")) {
-                Manager.delete();
-            } else if (command.equals("m")) {
-                Manager.modify();
-            } else if (command.equals("s")) {
-                Manager.search();
-            } else if (command.equals("p")) {
-                Manager.print();
-            } else if (command.equals("t")) {
-                System.out.println("Terminating program...");
-                active = 1;
-            } else {
-                System.out.println("Invalid input");
+            switch (command) {
+                case "a" -> Manager.add();
+                case "d" -> Manager.delete();
+                case "m" -> Manager.modify();
+                case "s" -> Manager.search();
+                case "p" -> Manager.print();
+                case "t" -> active = 1;
+                default -> System.out.println("Invalid input");
             }
         }
     }

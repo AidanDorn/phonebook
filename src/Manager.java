@@ -2,39 +2,39 @@ import java.util.LinkedList;
 import java.util.Scanner;
 public class Manager {
     public static LinkedList<String> phonebook= new LinkedList<>();
-    //add, delete, modify, or search for an entry at the  beginning, middle, or end of the node
-    // (name, address, city, phone #).  Finally, you should be able to print out your list in a nice format.
+    public static int entryCount;
+    public static int entryNum;
     public static void add(){
         System.out.println("add");
-        Object.Entry();
-        //test
-        phonebook.add("John");
-        phonebook.add("Sophia");
+        Object.setEntry();
+        entryCount++;
+        entryNum++;
+        phonebook.add(Object.getEntry()+entryNum);
     }
     public static void delete(){
+        print();
         Scanner scan = new Scanner(System.in);
-        System.out.println("Type the first name of who you like to delete, or (c)ancel.");
-        String input= scan.nextLine();
-
-    }
+        System.out.println("Select an entry number to delete");
+        int entryNum = scan.nextInt();
+        phonebook.remove(entryNum-1);
+        entryCount--;
+        }
     public static void modify(){
-        System.out.println("modify");
-    }
+        print();
+        Object.changeEntry();
+        }
     public static void search(){
         Scanner scan = new Scanner(System.in);
-        System.out.println("Search: (f)irst or (l)ast");
+        System.out.println("Search: (f)irst, (m)iddle, or (l)ast");
         String where=scan.nextLine().toLowerCase();
-        if(where.equals("f")){
-            System.out.println(phonebook.getFirst());
-        } else if(where.equals("m")){
-            //phonebook.get();
-        } else if (where.equals("l")) {
-            System.out.println(phonebook.getLast());
-        }else{
-            System.out.println("Invalid");
+        switch (where) {
+            case "f" -> System.out.println(phonebook.getFirst());
+            case "m" -> System.out.println(phonebook.get(entryCount/2));
+            case "l" -> System.out.println(phonebook.getLast());
+            default -> System.out.println("Invalid");
         }
     }
     public static void print() {
-        System.out.println(phonebook);
+        System.out.println(phonebook+"\n");
     }
 }
