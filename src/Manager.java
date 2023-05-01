@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.Scanner;
+
 public class Manager {
     public static LinkedList<String> phonebook= new LinkedList<>();
     public static int entryCount;
@@ -20,7 +21,7 @@ public class Manager {
         entryCount--;
         }
     public static void modify(){
-        print();
+        System.out.println(phonebook);
         Object.changeEntry();
         }
     public static void search(){
@@ -36,5 +37,8 @@ public class Manager {
     }
     public static void print() {
         System.out.println(phonebook+"\n");
+    }
+    public static LinkedList<String> getPhonebook(){
+        return phonebook;
     }
 }
