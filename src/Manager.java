@@ -1,88 +1,107 @@
- import java.io.*;
-        import java.util.LinkedList;
-        import java.util.Scanner;
+import java.util.*;
 public class Manager {
-    public static LinkedList<String> phonebook= new LinkedList<String>();
-    public static int entryCount;
-    public static int entryNum;
-    public static void add(){
-        System.out.println("add");
-        Object.setEntry();
-        entryCount++;
-        entryNum++;
-        phonebook.add(Object.getEntry()+entryNum);
+    private Object head;
+    private Scanner input;
+    public Manager() {
+        this.head = null;
+        input = new Scanner(System.in);
     }
-    public static void delete(){
-        print();
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Select an entry number to delete");
-        int entryNum = scan.nextInt();
-        phonebook.remove(entryNum-1);
-        entryCount--;
-    }
-    public static void modify(){
-        System.out.println(phonebook);
-        Object.changeEntry();
-    }
-    public static void search(){
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Search: (f)irst, (m)iddle, or (l)ast");
-        String where=scan.nextLine().toLowerCase();
-        switch (where) {
-            case "f": System.out.println(phonebook.getFirst());
-            case "m": System.out.println(phonebook.get(entryCount/2));
-            case "l": System.out.println(phonebook.getLast());
-            default: System.out.println("Invalid");
-        }
-    }
-    public static void upload() throws IOException{
-        Scanner input = new Scanner(System.in);
-        String line;
-        LinkedList<String> newPhoneBook = new LinkedList<String>();
-
-        System.out.println("Enter the name of the Phone Book file you wish to import");
-        System.out.println("*file must end in .txt extension*");
-        String fileName = input.next();
-        try {
-            if (fileName.endsWith(".txt") && !fileName.isEmpty()) {
-                BufferedReader bf = new BufferedReader(new FileReader(fileName));
-                line = bf.readLine();
-                while (line != null) {
-                    newPhoneBook.add(line);
-                    line = bf.readLine();
-                }
-                bf.close();
-                System.out.println(newPhoneBook);
-                phonebook = newPhoneBook;
-            } else {
-                System.out.println("please enter a file with a .txt extension");
+    public void menu(Scanner input) {
+        String begin;
+        do {
+            System.out.println("To use this phone book, follow the directions as below: ");
+            System.out.println("Press 'a' to add contents to the phone book");
+            System.out.println("Press 's' to search for a contact in the book");
+            System.out.println("Press 'm' to modify existing contacts in the phone book");
+            System.out.println("Press 'd' to delete existing contacts in the phone book");
+            System.out.println("Press 'e' to exit the phone book");
+            begin = input.next().toLowerCase();
+            switch (begin) {
+                case "a":
+                    add(input);
+                    break;
+                case "s":
+                    search(input);
+                    break;
+                case "m":
+                    modify(input);
+                case "d":
+                    delete();
+                    break;
+                case "e":
+                    System.out.println("Goodbye");
+                    break;
             }
-        }catch (Exception e){
-            System.out.println("Please enter an existing file");
+        } while (!begin.equals("e"));
+    }
+    private void add(Scanner s) {
+        System.out.println("Type first name: ");
+        String firstName = s.next().toLowerCase();
+        System.out.println("Type last name: ");
+        String lastName = s.next().toLowerCase();
+        System.out.println("Type phone number: ");
+        String pNumber = s.next();
+        System.out.println("Type address: ");
+        String newAddress = s.next();
+        if (head == null)
+            head = new Object(firstName, lastName, pNumber, newAddress);
+        else {
+            Object temp = head;
+            while (temp.next != null)
+                temp = temp.next;
+            temp.next = new Object(firstName, lastName, pNumber, newAddress);
         }
     }
-    public static void save() throws FileNotFoundException {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Please type the name of the file you want to save");
-        System.out.println("Make sure the name of the file ends in '.txt'");
-        String newFile = scan.next();
-        LinkedList<String> savedEdition = new LinkedList<String>(phonebook);
-
-        if(newFile.endsWith(".txt")) {
-            PrintStream fileWriter = new PrintStream(newFile);
-
-            while(!savedEdition.isEmpty()){
-                String addContent = savedEdition.pop();
-                fileWriter.print(addContent);
-            }
-        } else{
-            System.out.println("Please enter as a .txt file type");
+    private Object search(Scanner s) {
+        if (s.equals("s")) {
+            System.out.println("Type the first & last name of the contact you wish to view");
+        } else if (s.equals("m")) {
+            System.out.println("Type the first & last name of the contact you wish to view");
+        } else {
+            System.out.println("Type the first & last name of the contact you wish to view");
         }
+        String firstName = s.next().toLowerCase();
+        String lastName = s.next().toLowerCase();
+        Object search = head;
+        while (!(search.getFirst().equals(firstName) && search.getLast().equals(lastName)) || search.next != null)
+            search = search.next;
+        search.print();
+        return search;
     }
-    public static void print() {
-        System.out.println(phonebook+"\n");
+    private void modify(Scanner s) {
+        Object temp = search(input);
+        temp.print();
+        System.out.println("To change first name press '1'");
+        System.out.println("To change last name press '2'");
+        System.out.println("To change phone # press '3'");
+        System.out.println("To change address press '4'");
+        String entry = s.next();
+        switch (entry) {
+            case "1":
+                System.out.println("Type the new first name");
+                temp.setFirst(s.next().toLowerCase());
+                break;
+            case "2":
+                System.out.println("Type the new last name");
+                temp.setLast(s.next().toLowerCase());
+                break;
+            case "3":
+                System.out.println("Type the new phone #");
+                temp.setPN(s.next().toLowerCase());
+                break;
+            case "4":
+                System.out.println("Type the new address");
+                temp.setAddress(s.next().toLowerCase());
+                break;
+            default:
+                System.out.println("Try a new command");
+        }
+        temp.print();
     }
-    public static LinkedList<String> getPhonebook(){
-        return phonebook;
+    private void delete() {
+        Object temp = search(input);
+
+
+        Object prev = head;
     }
 }
