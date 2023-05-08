@@ -6,7 +6,7 @@ public class Manager {
         this.head = null;
         input = new Scanner(System.in);
     }
-    public void menu(Scanner input) {
+    public void menu(Scanner input) { //start of menu
         String begin;
         do {
             System.out.println("To use this phone book, follow the directions as below: ");
@@ -22,19 +22,19 @@ public class Manager {
                 case "s" -> search(input);
                 case "m" -> modify(input);
                 case "d" -> delete();
-                case "e" -> begin="e";
+                case "e" -> begin = "e";
             }
         } while (!begin.equals("e"));
     }
-    private void add(Scanner s) {
+    private void add(Scanner scan) {
         System.out.println("Type first name: ");
-        String firstName = s.next().toLowerCase();
+        String firstName = scan.next().toLowerCase();
         System.out.println("Type last name: ");
-        String lastName = s.next().toLowerCase();
+        String lastName = scan.next().toLowerCase();
         System.out.println("Type phone number: ");
-        String pNumber = s.next();
+        String pNumber = scan.next();
         System.out.println("Type address: ");
-        String newAddress = s.next();
+        String newAddress = scan.next();
         if (head == null)
             head = new Object(firstName, lastName, pNumber, newAddress);
         else {
@@ -58,23 +58,34 @@ public class Manager {
         Object temp = search(input);
         temp.print();
         System.out.println("""
-        To change first name press '1'
-        To change last name press '2'
-        To change phone # press '3'
-        System.out.println("To change address press '4'""");
-        String entry = s.next();
+                To change first name press 'f'
+                To change last name press 'l'
+                To change phone # press 'p'
+                To change address press 'a'""");
+        String entry = s.next().toLowerCase();
         switch (entry) {
-            case "1" -> temp.setFirst(s.next().toLowerCase());
-            case "2" -> temp.setLast(s.next().toLowerCase());
-            case "3" -> temp.setPN(s.next().toLowerCase());
-            case "4" -> temp.setAddress(s.next().toLowerCase());
-            default -> System.out.println("Try a new command");
+            case "f" -> temp.setFirst(s.next().toLowerCase());
+            case "l" -> temp.setLast(s.next().toLowerCase());
+            case "p" -> temp.setPN(s.next().toLowerCase());
+            case "a" -> temp.setAddress(s.next().toLowerCase());
+            default -> System.out.println("command not recognized");
         }
         temp.print();
     }
-    private void delete() {
+    private void delete() {//next node delete
         Object temp = search(input);
-
-        Object prev = head;
+        if (temp == head) {
+            head = head.next;
+            temp.next = null;
+        } else if (temp.next == null) {//last node delete
+            Object prev = head;
+            while (prev.next != temp) {//moves prev to next node until temp
+                prev = prev.next;
+                prev.next=null;
+            }
+        }
+        else{
+            while
+        }
     }
 }

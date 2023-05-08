@@ -1,7 +1,9 @@
-//Aidan Dorn
-//5/1/2023
-//CS 145
-//Assignment 1: Phonebook
+/*
+Aidan Dorn
+5/1/2023
+CS 145
+Assignment 1: Phonebook
+*/
 import java.util.*;
 public class Test {
     public static void main (String [] args){
