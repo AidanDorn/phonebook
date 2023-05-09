@@ -2,13 +2,13 @@
 Aidan Dorn
 5/1/2023
 CS 145
-Assignment 1: Phonebook
+Assignment 2: Phonebook
 */
 import java.util.*;
 public class Test {
     public static void main (String [] args){
         Scanner input = new Scanner(System.in);
-        Manager M = new Manager();
-        M.menu(input);
+        Manager manager = new Manager();
+        manager.menu(input);
     }
 }

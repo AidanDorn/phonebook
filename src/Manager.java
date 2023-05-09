@@ -2,90 +2,88 @@ import java.util.*;
 public class Manager {
     private Object head;
     private final Scanner input;
-    public Manager() {
+    public Manager(){
         this.head = null;
         input = new Scanner(System.in);
     }
-    public void menu(Scanner input) { //start of menu
+    public void menu(Scanner input){
         String begin;
-        do {
-            System.out.println("To use this phone book, follow the directions as below: ");
+        do{
             System.out.println("""
-                    (a)dd contents to the phone book
-                    (s)earch for a contact in the book
-                    (m)odify existing contacts in the phone book
-                    (d)elete existing contacts in the phone book
-                    (e)xit the phone book""");
+                    To use this phone book, follow the directions as below:
+                    Press 'a' to add contents to the phone book
+                    Press 's' to search for a contact in the book
+                    Press 'm' to modify existing contacts in the phone bookPress 'd' to delete existing contacts in the phone book
+                    Press 'e' to exit the phone book\s""");
             begin = input.next().toLowerCase();
-            switch (begin) {
+            switch(begin){
                 case "a" -> add(input);
                 case "s" -> search(input);
                 case "m" -> modify(input);
                 case "d" -> delete();
-                case "e" -> begin = "e";
+                case "e" -> System.out.println("Goodbye");
             }
-        } while (!begin.equals("e"));
+        }while(!begin.equals("e"));
     }
-    private void add(Scanner scan) {
-        System.out.println("Type first name: ");
-        String firstName = scan.next().toLowerCase();
-        System.out.println("Type last name: ");
-        String lastName = scan.next().toLowerCase();
-        System.out.println("Type phone number: ");
-        String pNumber = scan.next();
-        System.out.println("Type address: ");
-        String newAddress = scan.next();
-        if (head == null)
+    private void add(Scanner s){
+        System.out.println("Enter first name: ");
+        String firstName = s.next().toLowerCase();
+        System.out.println("Enter last name: ");
+        String lastName = s.next().toLowerCase();
+        System.out.println("Enter phone number: ");
+        String pNumber = s.next();
+        System.out.println("Enter address: ");
+        String newAddress = s.next();
+        if(head == null)
             head = new Object(firstName, lastName, pNumber, newAddress);
-        else {
-            Object temp = head;
-            while (temp.next != null)
-                temp = temp.next;
-            temp.next = new Object(firstName, lastName, pNumber, newAddress);
+        else{
+            Object temporary = head;
+            while(temporary.next != null)
+                temporary = temporary.next;
+            temporary.next = new Object(firstName, lastName, pNumber, newAddress);
         }
     }
-    private Object search(Scanner s) {
-        System.out.println("Type the first & last name of the contact");
+    private Object search(Scanner s){
+        System.out.println("Enter the first & last name of the contact you wish to view");
         String firstName = s.next().toLowerCase();
         String lastName = s.next().toLowerCase();
         Object search = head;
-        while (!(search.getFirst().equals(firstName) && search.getLast().equals(lastName)) || search.next != null)
+        System.out.println(search.getFirst().equals(firstName));
+        System.out.println(search.getLast().equals(lastName));
+        while(!(search.getFirst().equals(firstName) && search.getLast().equals(lastName)))
             search = search.next;
         search.print();
         return search;
     }
-    private void modify(Scanner s) {
+    private void modify(Scanner s){
         Object temp = search(input);
         temp.print();
-        System.out.println("""
-                To change first name press 'f'
-                To change last name press 'l'
-                To change phone # press 'p'
-                To change address press 'a'""");
-        String entry = s.next().toLowerCase();
+        System.out.println("Which element would you like to modify?\n(f)irst name, (l)ast name, (p)hone number, or (a)ddress:");
+        String entry = s.next();
+        System.out.println("Enter the new value:");
         switch (entry) {
             case "f" -> temp.setFirst(s.next().toLowerCase());
             case "l" -> temp.setLast(s.next().toLowerCase());
             case "p" -> temp.setPN(s.next().toLowerCase());
             case "a" -> temp.setAddress(s.next().toLowerCase());
-            default -> System.out.println("command not recognized");
+            default -> System.out.println("Invalid, retry.");
         }
         temp.print();
     }
-    private void delete() {//next node delete
-        Object temp = search(input);
-        if (temp == head) {
+    private void delete(){
+        Object temporary = search(input);
+        Object previous = head;
+        if(temporary == head){ //first node delete
             head = head.next;
-            temp.next = null;
-        } else if (temp.next == null) {//last node delete
-            Object prev = head;
-            while (prev.next != temp) {//moves prev to next node until temp
-                prev = prev.next;
-                prev.next=null;
-            }
-        }
-        else{
-            while
+            temporary.next = null;
+        }else if(temporary.next == null){//last node delete
+            while(previous.next != temporary)//moves prev to next node until temp
+                previous = previous.next;
+            previous.next = null;
+        }else{
+            while(previous.next != temporary)
+                previous = previous.next;
+            previous.next = temporary.next;
         }
     }
 }
